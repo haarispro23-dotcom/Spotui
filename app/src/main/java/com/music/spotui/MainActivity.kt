@@ -11,6 +11,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import android.content.Intent
+import android.net.Uri
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -26,7 +28,11 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
+        private fun isAppExpired(): Boolean {
+        return !java.time.LocalDate.now()
+            .isBefore(java.time.LocalDate.of(2027, 1, 1))
+        }
+    
     private var controllerFuture: ListenableFuture<MediaController>? = null
 
     private val notificationPermission =
@@ -37,6 +43,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?){
 
         super.onCreate(savedInstanceState)
+        if (isAppExpired()) {
+    android.widget.Toast.makeText(
+        this,
+        "PURITY has expired!",
+        android.widget.Toast.LENGTH_LONG
+    ).show()
+    finish()
+    return
+        }
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
         // Ask for notification permission (Android 13+) so the media notification shows.
@@ -63,18 +78,25 @@ class MainActivity : ComponentActivity() {
         val controller = WindowInsetsControllerCompat(window, window.decorView)
         controller.isAppearanceLightNavigationBars = false
         setContent {
+    SpotuiTheme {
+        App()
 
-            SpotuiTheme {
-                // A surface container using the 'background' color from the theme
-                    App()
+        com.music.spotui.ui.components.UpdatePrompt()
+        com.music.spotui.ui.components.DefaultAppPrompt()
 
-                // New-release check (GitHub): prompts Upgrade / Dismiss / Don't show again.
-                com.music.spotui.ui.components.UpdatePrompt()
-
-                // Default link handler prompt: helps user enable open.spotify.com defaults.
-                com.music.spotui.ui.components.DefaultAppPrompt()
+        androidx.compose.material3.TextButton(
+            onClick = {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://t.me/haarisapps")
+                )
+                startActivity(intent)
             }
+        ) {
+            androidx.compose.material3.Text("Update PURITY on Telegram")
         }
+    }
+}
 
         // Experimental Spotify web-player engine: attach its hidden WebView AFTER
         // setContent so the Compose content view doesn't replace/orphan it (an
