@@ -88,12 +88,12 @@ class MainActivity : ComponentActivity() {
             onClick = {
                 val intent = Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://t.me/haarisapps")
+                    Uri.parse("https://haarispro23-dotcom.github.io/haaris-mods/")
                 )
                 startActivity(intent)
             }
         ) {
-            androidx.compose.material3.Text("Update PURITY on Telegram")
+            androidx.compose.material3.Text("Update PURITY on website")
         }
     }
 }
