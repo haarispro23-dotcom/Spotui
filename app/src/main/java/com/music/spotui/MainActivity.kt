@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
         private fun isAppExpired(): Boolean {
         return !java.time.LocalDate.now()
-            .isBefore(java.time.LocalDate.of(2027, 1, 1))
+            .isBefore(java.time.LocalDate.of(2021, 1, 1))
         }
     
     private var controllerFuture: ListenableFuture<MediaController>? = null
