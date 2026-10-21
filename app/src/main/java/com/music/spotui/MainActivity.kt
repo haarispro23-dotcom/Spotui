@@ -44,24 +44,35 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         if (isAppExpired()) {
-    androidx.appcompat.app.AlertDialog.Builder(this)
-        .setTitle("EXPIRED")
-        .setMessage("PURITY APP EXPIRED. PLEASE UPDATE.")
-        .setPositiveButton("UPDATE NOW") { _, _ ->
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://haarispro23-dotcom.github.io/haaris-mods/")
-                )
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest = {},
+        title = { androidx.compose.material3.Text("EXPIRED") },
+        text = {
+            androidx.compose.material3.Text(
+                "PURITY APP EXPIRED. PLEASE UPDATE."
             )
+        },
+        confirmButton = {
+            androidx.compose.material3.TextButton(
+                onClick = {
+                    val intent = Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://haarispro23-dotcom.github.io/haaris-mods/")
+                    )
+                    startActivity(intent)
+                }
+            ) {
+                androidx.compose.material3.Text("UPDATE NOW")
+            }
+        },
+        dismissButton = {
+            androidx.compose.material3.TextButton(
+                onClick = { finish() }
+            ) {
+                androidx.compose.material3.Text("EXIT OUT")
+            }
         }
-        .setNegativeButton("EXIT OUT") { _, _ ->
-            finish()
-        }
-        .setCancelable(false)
-        .show()
-
-    return
+    )
 }
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
