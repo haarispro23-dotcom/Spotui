@@ -46,13 +46,14 @@ class MainActivity : ComponentActivity() {
         if (isAppExpired()) {
     androidx.appcompat.app.AlertDialog.Builder(this)
         .setTitle("EXPIRED")
-        .setMessage("PURITY has expired. Please update the app.")
+        .setMessage("PURITY APP EXPIRED. PLEASE UPDATE.")
         .setPositiveButton("UPDATE NOW") { _, _ ->
-            val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://haarispro23-dotcom.github.io/haaris-mods/")
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://haarispro23-dotcom.github.io/haaris-mods/")
+                )
             )
-            startActivity(intent)
         }
         .setNegativeButton("EXIT OUT") { _, _ ->
             finish()
