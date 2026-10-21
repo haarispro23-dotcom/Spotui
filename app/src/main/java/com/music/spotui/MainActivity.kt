@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
         private fun isAppExpired(): Boolean {
         return !java.time.LocalDate.now()
-            .isBefore(java.time.LocalDate.of(2021, 1, 1))
+            .isBefore(java.time.LocalDate.of(2021, 12, 10))
         }
     
     private var controllerFuture: ListenableFuture<MediaController>? = null
@@ -44,14 +44,24 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         if (isAppExpired()) {
-    android.widget.Toast.makeText(
-        this,
-        "PURITY has expired!",
-        android.widget.Toast.LENGTH_LONG
-    ).show()
-    finish()
-    return
+    androidx.appcompat.app.AlertDialog.Builder(this)
+        .setTitle("EXPIRED")
+        .setMessage("PURITY has expired. Please update the app.")
+        .setPositiveButton("UPDATE NOW") { _, _ ->
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://haarispro23-dotcom.github.io/haaris-mods/")
+            )
+            startActivity(intent)
         }
+        .setNegativeButton("EXIT OUT") { _, _ ->
+            finish()
+        }
+        .setCancelable(false)
+        .show()
+
+    return
+}
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
         // Ask for notification permission (Android 13+) so the media notification shows.
@@ -93,7 +103,7 @@ class MainActivity : ComponentActivity() {
                 startActivity(intent)
             }
         ) {
-            androidx.compose.material3.Text("Update PURITY on website")
+            androidx.compose.material3.Text("HAARIS_MODS 😎")
         }
     }
 }
