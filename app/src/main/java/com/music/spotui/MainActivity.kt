@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
 
     private fun isAppExpired(): Boolean {
         return !java.time.LocalDate.now()
-            .isBefore(java.time.LocalDate.of(2026, 12, 10))
+            .isBefore(java.time.LocalDate.of(2020, 12, 10))
     }
 
     private var controllerFuture: ListenableFuture<MediaController>? = null
