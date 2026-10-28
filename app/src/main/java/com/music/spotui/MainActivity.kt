@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
                 App()
 
                 com.music.spotui.ui.components.UpdatePrompt()
-                com.music.spotui.ui.components.DefaultAppPrompt()
+                
 
                 androidx.compose.material3.TextButton(
                     onClick = {
