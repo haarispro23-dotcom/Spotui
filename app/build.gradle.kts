@@ -7,15 +7,15 @@ plugins {
 }
 
 android {
-    namespace = "com.music.spotui"
+    namespace = "com.haarismod.purity"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.music.spotui"
+        applicationId = "com.haarismod.purity"
         minSdk = 26
         targetSdk = 37
-        versionCode = 202608150
-        versionName = "1.5.0"
+        versionCode = 202610280
+        versionName = "1.6.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -50,10 +50,8 @@ android {
             signingConfig = signingConfigs.getByName("sharedDebug")
         }
         debug {
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
-            signingConfig = signingConfigs.getByName("sharedDebug")
-        }
+    signingConfig = signingConfigs.getByName("sharedDebug")
+}
     }
 
     compileOptions {
@@ -75,7 +73,7 @@ android {
 androidComponents {
     onVariants { variant ->
         variant.outputs.forEach { output ->
-            output.outputFileName.set("Spotui_v${android.defaultConfig.versionName}.apk")
+            output.outputFileName.set("PURITY_v${android.defaultConfig.versionName}.apk")
         }
     }
 }
