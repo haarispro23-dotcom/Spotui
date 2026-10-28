@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.haarismod.purity"
+    namespace = "com.music.spotui"
     compileSdk = 37
 
     defaultConfig {
