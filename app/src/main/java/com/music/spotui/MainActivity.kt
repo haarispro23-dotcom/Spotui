@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
 
     private fun isAppExpired(): Boolean {
         return !java.time.LocalDate.now()
-            .isBefore(java.time.LocalDate.of(2020, 12, 10))
+            .isBefore(java.time.LocalDate.of(2027, 1, 1))
     }
 
     private var controllerFuture: ListenableFuture<MediaController>? = null
@@ -114,7 +114,7 @@ class MainActivity : ComponentActivity() {
                         },
                         text = {
                             androidx.compose.material3.Text(
-                                "PURITY APP EXPIRED. PLEASE UPDATE."
+                                "⚠️PURITY APP EXPIRED. PLEASE UPDATE."
                             )
                         },
                         confirmButton = {
