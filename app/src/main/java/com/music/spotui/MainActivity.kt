@@ -2,33 +2,35 @@
 package com.music.spotui
 
 import android.content.ComponentName
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.content.Intent
-import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
 import com.google.common.util.concurrent.ListenableFuture
 import com.music.spotui.di.SongPlayer
 import com.music.spotui.ui.components.ChristmasSnow
 import com.music.spotui.ui.notification.PlaybackService
 import com.music.spotui.ui.theme.SpotuiTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -69,6 +71,7 @@ class MainActivity : ComponentActivity() {
             this,
             ComponentName(this, PlaybackService::class.java)
         )
+
         controllerFuture =
             MediaController.Builder(this, token).buildAsync()
 
@@ -85,12 +88,14 @@ class MainActivity : ComponentActivity() {
 
         val controller =
             WindowInsetsControllerCompat(window, window.decorView)
+
         controller.isAppearanceLightNavigationBars = false
 
         setContent {
             SpotuiTheme {
                 Box(modifier = Modifier.fillMaxSize()) {
                     App()
+
                     ChristmasSnow(
                         modifier = Modifier.fillMaxSize()
                     )
@@ -100,13 +105,14 @@ class MainActivity : ComponentActivity() {
 
                 androidx.compose.material3.TextButton(
                     onClick = {
-                        val intent = Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse(
-                                "https://haarispro23-dotcom.github.io/haaris-mods/"
+                        startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(
+                                    "https://haarispro23-dotcom.github.io/haaris-mods/"
+                                )
                             )
                         )
-                        startActivity(intent)
                     }
                 ) {
                     androidx.compose.material3.Text("HAARIS_MODS 😎")
@@ -126,13 +132,14 @@ class MainActivity : ComponentActivity() {
                         confirmButton = {
                             androidx.compose.material3.TextButton(
                                 onClick = {
-                                    val intent = Intent(
-                                        Intent.ACTION_VIEW,
-                                        Uri.parse(
-                                            "https://haarispro23-dotcom.github.io/haaris-mods/"
+                                    startActivity(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse(
+                                                "https://haarispro23-dotcom.github.io/haaris-mods/"
+                                            )
                                         )
                                     )
-                                    startActivity(intent)
                                 }
                             ) {
                                 androidx.compose.material3.Text("UPDATE NOW")
@@ -152,9 +159,7 @@ class MainActivity : ComponentActivity() {
 
         com.music.spotui.di.SpotifyWebPlayer.attach(this)
 
-        kotlinx.coroutines.CoroutineScope(
-            kotlinx.coroutines.Dispatchers.IO
-        ).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             com.music.spotui.util.BackupHelper.performAutoBackup(
                 applicationContext
             )
@@ -171,9 +176,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+
         controllerFuture?.let {
             MediaController.releaseFuture(it)
         }
+
         SongPlayer.release()
     }
 }
