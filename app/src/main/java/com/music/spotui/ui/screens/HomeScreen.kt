@@ -89,6 +89,7 @@ import com.music.spotui.data.entity.SongsModel
 import com.music.spotui.di.SongPlayer
 import com.music.spotui.ui.components.Loader
 import com.music.spotui.ui.components.SongOptionsSheet
+import com.music.spotui.ui.components.ChristmasBanner
 import com.music.spotui.ui.navigation.Routes
 import com.music.spotui.ui.navigation.albumRoute
 import com.music.spotui.ui.navigation.artistRoute
@@ -570,6 +571,10 @@ private fun HomeMusicFeedContent(
                 onToggleFollowing = { homeViewModel.toggleFollowing() },
                 onResetFilters = { homeViewModel.resetFilters() }
             )
+        }
+
+        item {
+            ChristmasBanner()
         }
 
         if (isFollowingOnly) {
