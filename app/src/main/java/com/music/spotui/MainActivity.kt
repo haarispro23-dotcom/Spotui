@@ -20,8 +20,12 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import com.google.common.util.concurrent.ListenableFuture
 import com.music.spotui.di.SongPlayer
+import com.music.spotui.ui.components.ChristmasSnow
 import com.music.spotui.ui.notification.PlaybackService
 import com.music.spotui.ui.theme.SpotuiTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,11 +89,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SpotuiTheme {
-                // Main app always opens
-                App()
+                Box(modifier = Modifier.fillMaxSize()) {
+                    App()
+                    ChristmasSnow(
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
 
                 com.music.spotui.ui.components.UpdatePrompt()
-                
 
                 androidx.compose.material3.TextButton(
                     onClick = {
@@ -105,7 +112,6 @@ class MainActivity : ComponentActivity() {
                     androidx.compose.material3.Text("HAARIS_MODS 😎")
                 }
 
-                // Expiry dialog appears over the app
                 if (isAppExpired()) {
                     androidx.compose.material3.AlertDialog(
                         onDismissRequest = {},
