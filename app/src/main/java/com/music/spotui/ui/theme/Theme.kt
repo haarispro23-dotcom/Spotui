@@ -1,7 +1,7 @@
+
 package com.music.spotui.ui.theme
 
 import android.app.Activity
-import android.graphics.Color.toArgb
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -28,41 +28,34 @@ private val DarkColorScheme = darkColorScheme(
 private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
-    tertiary = Pink40 ,
+    tertiary = Pink40,
     background = AppBackground,
-    /* Other default colors to override
-
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
 )
 
 @Composable
 fun SpotuiTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            if (darkTheme) dynamicDarkColorScheme(context)
+            else dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+
     val view = LocalView.current
+
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = Color.Transparent.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false // white icons for dark‑mode‑only app
+            WindowCompat.getInsetsController(window, view)
+                .isAppearanceLightStatusBars = false
         }
     }
 
@@ -70,9 +63,6 @@ fun SpotuiTheme(
         colorScheme = colorScheme,
         typography = Typography,
     ) {
-        // Bare Text() uses LocalTextStyle, which MaterialTheme does NOT derive
-        // from the typography — so provide Montserrat as the global default so
-        // every screen picks it up without touching each Text call.
         androidx.compose.material3.ProvideTextStyle(
             value = androidx.compose.material3.LocalTextStyle.current.copy(
                 fontFamily = Montserrat,
