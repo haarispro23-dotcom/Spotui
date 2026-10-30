@@ -51,8 +51,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.launch
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -91,12 +89,6 @@ import com.music.spotui.data.preferences.setDownloadQuality
 import com.music.spotui.data.preferences.setAutoPlayEnabled
 import com.music.spotui.data.preferences.setVideoFallbackEnabled
 import com.music.spotui.data.preferences.setWifiQuality
-import com.music.spotui.data.preferences.getUpdateRepoUrl
-import com.music.spotui.data.preferences.setUpdateRepoUrl
-import com.music.spotui.data.preferences.resetUpdateRepoUrl
-import com.music.spotui.data.preferences.DEFAULT_UPDATE_REPO_URL
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -119,7 +111,6 @@ fun SettingsScreen(navController: NavController) {
     var videoFallback by remember { mutableStateOf(isVideoFallbackEnabled(context)) }
     var autoPlay by remember { mutableStateOf(isAutoPlayEnabled(context)) }
     var batteryOptExempt by remember { mutableStateOf(BatteryOptimizationHelper.isIgnoringBatteryOptimization(context)) }
-    var updateRepoUrl by remember { mutableStateOf(getUpdateRepoUrl(context)) }
     var isDefaultLinkHandler by remember { mutableStateOf(DefaultLinkHelper.isAppDefaultLinkHandler(context)) }
     var showDefaultGuide by remember { mutableStateOf(false) }
     var showProviderStatusDialog by remember { mutableStateOf(false) }
@@ -168,7 +159,6 @@ fun SettingsScreen(navController: NavController) {
                     crossfadeMs = getCrossfadeMs(context).toFloat()
                     videoFallback = isVideoFallbackEnabled(context)
                     autoPlay = isAutoPlayEnabled(context)
-                    updateRepoUrl = getUpdateRepoUrl(context)
                     backupDirUri = BackupPref.getDirectoryUri(context)
                     isAutoBackup = BackupPref.isAutoBackupEnabled(context)
                 }
@@ -580,52 +570,6 @@ fun SettingsScreen(navController: NavController) {
                     activeTrackColor = AppPalette,
                     inactiveTrackColor = Color(0xFF333333),
                 ),
-            )
-            Spacer(Modifier.height(12.dp))
-            SectionTitle("Updates")
-            Text(
-                "Update source repository",
-                color = Color.White,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-            )
-            Text(
-                "GitHub repo URL used to check for new versions",
-                color = Color(0xFFB3B3B3),
-                fontSize = 12.sp,
-            )
-            Spacer(Modifier.height(8.dp))
-            OutlinedTextField(
-                value = updateRepoUrl,
-                onValueChange = {
-                    updateRepoUrl = it
-                    setUpdateRepoUrl(context, it)
-                },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    focusedBorderColor = AppPalette,
-                    unfocusedBorderColor = Color(0xFF333333),
-                    cursorColor = AppPalette,
-                    focusedPlaceholderColor = Color(0xFF666666),
-                    unfocusedPlaceholderColor = Color(0xFF666666),
-                ),
-                placeholder = { Text("https://github.com/Owner/Repo") },
-                trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Refresh,
-                        contentDescription = "Reset to default",
-                        tint = if (updateRepoUrl != DEFAULT_UPDATE_REPO_URL) AppPalette else Color(0xFF444444),
-                        modifier = Modifier
-                            .padding(end = 4.dp)
-                            .clickable {
-                                updateRepoUrl = DEFAULT_UPDATE_REPO_URL
-                                resetUpdateRepoUrl(context)
-                            }
-                    )
-                },
             )
             Spacer(Modifier.height(12.dp))
             SectionTitle("Backup & Restore")
