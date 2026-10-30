@@ -831,12 +831,12 @@ fun SettingsScreen(navController: NavController) {
                     fontWeight = FontWeight.Medium,
                 )
                 Text(
-                    text = "Hazhan Salih",
+                    text = "HAARIS MODS",
                     color = Color.White,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable {
-                        uriHandler.openUri("https://github.com/H4zh4n/Spotui/")
+                        uriHandler.openUri("https://youtube.com/@hp_2.3?si=dfi_eiY_HJzrBG1j")
                     }
                 )
             }
